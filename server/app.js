@@ -1,3 +1,4 @@
+
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
@@ -13,9 +14,23 @@ const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 
 const app = express();
 
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://smart-canteen-delta.vercel.app",
+];
+
+if (process.env.CLIENT_URL && !allowedOrigins.includes(process.env.CLIENT_URL)) {
+  allowedOrigins.push(process.env.CLIENT_URL);
+}
+
 app.use(
   cors({
-    origin: process.env.CLIENT_URL,
+    origin(origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+      return callback(new Error("CORS not allowed"));
+    },
     credentials: true,
   })
 );
@@ -27,9 +42,7 @@ app.get("/", (req, res) => {
   res.status(200).json({ message: "Smart Canteen API is running" });
 });
 
-
-app.use("/api", authRoutes);  
-// app.use("/api/admin", adminRoutes);
+app.use("/api", authRoutes);
 app.use("/api/foods", foodRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/students", studentRoutes);
