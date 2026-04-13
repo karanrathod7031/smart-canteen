@@ -13,45 +13,52 @@ const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 
 const app = express();
 
-const allowedOrigins = [
-  "http://localhost:5173",
-  "https://smart-canteen-delta.vercel.app",
-];
+/* =========================
+   ✅ FINAL CORS CONFIG
+========================= */
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "https://smart-canteen-delta.vercel.app",
+    ],
+    credentials: true,
+  })
+);
 
-if (process.env.CLIENT_URL && !allowedOrigins.includes(process.env.CLIENT_URL)) {
-  allowedOrigins.push(process.env.CLIENT_URL);
-}
+// Handle preflight (VERY IMPORTANT)
+app.options("*", cors());
 
-const corsOptions = {
-  origin(origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      return callback(null, true);
-    }
-    return callback(null, false);
-  },
-  credentials: true,
-  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-};
-
-app.use(cors(corsOptions));
-app.options(/.*/, cors(corsOptions));
-
+/* =========================
+   BODY PARSING
+========================= */
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+/* =========================
+   STATIC FILES
+========================= */
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
+/* =========================
+   HEALTH CHECK
+========================= */
 app.get("/", (req, res) => {
   res.status(200).json({ message: "Smart Canteen API is running" });
 });
 
+/* =========================
+   ROUTES
+========================= */
 app.use("/api", authRoutes);
 app.use("/api/foods", foodRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/students", studentRoutes);
 // app.use("/api/admin", adminRoutes);
 
+/* =========================
+   ERROR HANDLING
+========================= */
 app.use(notFound);
 app.use(errorHandler);
 
