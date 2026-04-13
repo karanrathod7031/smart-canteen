@@ -1,0 +1,50 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f5f7fb;
+}
+
+/* Admin Layout */
+.admin-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.admin-sidebar {
+  width: 240px;
+  background: #1f2937;
+  color: white;
+  padding: 20px;
+}
+
+.admin-logo {
+  margin-bottom: 20px;
+}
+
+.admin-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.admin-nav a {
+  color: white;
+  text-decoration: none;
+  padding: 10px;
+  border-radius: 6px;
+}
+
+.admin-nav a.active {
+  background: #374151;
+}
+
+.admin-main {
+  flex: 1;
+  padding: 20px;
+}
+
+/* Not Found */
+.notfound {
+  text-align: center;
+  margin-top: 100px;
+}
