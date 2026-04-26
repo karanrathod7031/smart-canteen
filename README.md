@@ -1,4 +1,7 @@
 # 🍽️ Smart Canteen System
+<img width="1280" height="682" alt="image" src="https://github.com/user-attachments/assets/7959e12d-c9d0-4594-a72a-784f3fd493ba" />
+<img width="1280" height="678" alt="image" src="https://github.com/user-attachments/assets/fe6620b0-26b6-49ee-82d0-cbc3b7944d18" />
+
 
 A full-stack web application for managing a smart campus canteen with real-time order tracking, admin dashboard, and student interface.
 
