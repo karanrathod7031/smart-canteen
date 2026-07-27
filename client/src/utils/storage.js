@@ -14,12 +14,12 @@ export function getStoredUser() {
   try {
     const raw = localStorage.getItem(USER_KEY);
 
-    // 🚨 Fix here
-    if (!raw || raw === "undefined") return null;
+    // 🚨 Fix here - Safely check for undefined string representation or empty storage
+    if (!raw || raw === "undefined" || raw === "null" || raw.trim() === "") return null;
 
     return JSON.parse(raw);
   } catch (err) {
-    console.error("Invalid user data in localStorage");
+    console.error("Invalid user data in localStorage", err);
     return null;
   }
 }

@@ -24,9 +24,9 @@ export default function AdminMenuManager() {
 
   async function loadFoods() {
     try {
-      setError("");
       const result = await getFoods();
       setFoods(result);
+      setError("");
     } catch (err) {
       setError(
         err?.response?.data?.message ||
@@ -37,7 +37,10 @@ export default function AdminMenuManager() {
   }
 
   useEffect(() => {
-    loadFoods();
+    const timer = setTimeout(() => {
+      loadFoods();
+    }, 0);
+    return () => clearTimeout(timer);
   }, []);
 
   async function handleDelete(id) {

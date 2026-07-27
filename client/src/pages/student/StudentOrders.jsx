@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { getMyOrders, cancelOrder } from "../../services/orderService";
 import { useAuth } from "../../context/AuthContext";
 import { socket } from "../../services/socket";
@@ -54,7 +54,7 @@ export default function StudentOrders() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  async function loadOrders() {
+  const loadOrders = useCallback(async () => {
     try {
       setLoading(true);
       setError("");
@@ -76,7 +76,7 @@ export default function StudentOrders() {
     } finally {
       setLoading(false);
     }
-  }
+  }, [user?._id]);
 
   async function handleCancel(orderId) {
     try {
@@ -100,7 +100,7 @@ export default function StudentOrders() {
 
   useEffect(() => {
     loadOrders();
-  }, [user?._id]);
+  }, [loadOrders]);
 
   useEffect(() => {
     if (!user?._id) return;

@@ -1,11 +1,13 @@
 const http = require("http");
 const app = require("./app");
-const connectDB = require("./config/db");
+const { connectDB } = require("./config/db");
 const { initSocket } = require("./socket");
+const { seedDatabaseIfNeeded } = require("./utils/dbSeeder");
 
 const startServer = async () => {
   try {
     await connectDB();
+    await seedDatabaseIfNeeded();
 
     const port = process.env.PORT || 5000;
     const server = http.createServer(app);
